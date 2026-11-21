@@ -12,7 +12,7 @@ using namespace std;
 Board::Board() {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 8; j++)
-            grid[i][j] = nullptr;   //初始化
+            grid[i][j] = nullptr;
 
     vector<Piece*> pool;    //暫時放旗子的array
     Rank rks[] = { GENERAL, ADVISOR, ADVISOR, HORSE, HORSE, ROOK, ROOK, KNIGHT, KNIGHT, CANNON, CANNON, SOLDIER, SOLDIER, SOLDIER, SOLDIER, SOLDIER };
@@ -39,7 +39,7 @@ void Board::display() {
     }
     cout << "\n   " << string(55, '-') << endl;
 
-    // 2. 印出棋盤內容
+    // 印出棋盤內容
     for (int i = 0; i < 4; i++) {
     
         cout << " " << i << " | ";
@@ -52,14 +52,14 @@ void Board::display() {
     cout << "   " << string(55, '-') << endl;
 }
 bool Board::flipPiece(int r, int c) {
-    // 1. 檢查範圍是否合法
+    // 檢查範圍是否合法
     if (r < 0 || r > 3 || c < 0 || c > 7) {
         return false;
     }
 
     Piece* p = grid[r][c];
 
-    // 2. 檢查：必須有棋子 且 該棋子目前是「蓋著的」
+    // 檢查：必須有棋子 且 該棋子目前是「蓋著的」
     // (如果已經翻開，或者那格是空的，就不能翻)
     if (p != nullptr && !p->isFlipped()) {
         p->flip();
@@ -129,11 +129,11 @@ bool Board::move(int r1, int c1, int r2, int c2, Color turn) {
     if (!src || !src->isFlipped() || src->getColor() != turn)
         return false;
 
-    // 2. 定義兩種合法的移動模式
+    // 定義兩種合法的移動模式
     bool isAdjacent = (abs(r1 - r2) + abs(c1 - c2) == 1);
     bool isCannonJump = (src->getRank() == CANNON && isCannonPathClear(r1, c1, r2, c2));
 
-    // 3. 強制規則：若是炮，必須跳躍；若不是炮，必須相鄰
+    // 強制規則：若是炮，必須跳躍；若不是炮，必須相鄰
     if (src->getRank() == CANNON) {
         if (!isCannonJump) return false;
     }
@@ -141,7 +141,7 @@ bool Board::move(int r1, int c1, int r2, int c2, Color turn) {
         if (!isAdjacent) return false;
     }
 
-    // 4. 吃子規則判斷
+    // 吃子規則判斷
     if (dst->isFlipped() && dst->getColor() != NONE) {
         if (dst->getColor() == turn) return false; // 不能吃自己人
 
@@ -158,7 +158,7 @@ bool Board::move(int r1, int c1, int r2, int c2, Color turn) {
         }
     }
 
-    // 5. 執行移動
+    // 執行移動
     grid[r2][c2] = src;
     grid[r1][c1] = new Piece(NONE, EMPTY); // 原位置變成空棋子
     grid[r1][c1]->flip();                 // 保持原本翻開狀態或調整
