@@ -30,13 +30,12 @@ int main() {
         if (cmd == 'f') {
             int r, c;
             if (cin >> r >> c) {
-                // 直接呼叫 board 內部的翻牌函式
                 if (game.flipPiece(r, c)) {
-                    turn = (turn == RED ? BLACK : RED); // 成功翻牌才換人
+                    turn = (turn == RED ? BLACK : RED);
                 }
                 else {
                     cout << "\n\n";
-                    cout << "Invalid Move!" << endl; // 失敗時顯示提示
+                    cout << "Invalid Move!" << endl;
                 }
             }
         }
@@ -48,7 +47,7 @@ int main() {
                     if (winner != NONE) {
                         game.display();
                         cout << (winner == RED ? "RED WINS!" : "BLACK WINS!") << endl;
-                        break; // 跳出 while 迴圈，結束遊戲
+                        break; //結束遊戲
                     }
                     turn = (turn == RED ? BLACK : RED);
                 }
